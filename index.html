@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>DASHBOARD | Competencia Comercial 2026</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    :root {
+        --primary: #1e3a8a;
+        --secondary: #2563eb;
+        --success: #059669;
+        --accent: #fbbf24;
+        --bg: #0f172a;
+    }
+
+    body {
+        font-family: 'Segoe UI', system-ui, sans-serif;
+        background: var(--bg);
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden; /* Evita scroll en pantallas de proyección */
+    }
+
+    .container {
+        max-width: 900px; /* Más ancho para pantallas */
+        width: 100%;
+        background: #ffffff;
+        padding: 40px;
+        border-radius: 32px;
+        box-shadow: 0 0 100px rgba(0,0,0,0.5);
+        position: relative;
+    }
+
+    .header-main { text-align: center; margin-bottom: 25px; }
+    .tag {
+        display: inline-block;
+        background: var(--accent);
+        color: var(--primary);
+        padding: 6px 20px;
+        border-radius: 12px;
+        font-weight: 800;
+        font-size: 14px;
+        text-transform: uppercase;
+    }
+    h1 { color: var(--primary); margin: 10px 0; font-size: 48px; font-weight: 900; }
+
+    /* --- NAVEGACIÓN VISUAL --- */
+    .group-nav {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 30px;
+    }
+    .nav-indicator {
+        height: 8px;
+        width: 40px;
+        background: #e2e8f0;
+        border-radius: 4px;
+        transition: all 0.5s;
+    }
+    .nav-indicator.active {
+        background: var(--secondary);
+        width: 80px;
+    }
+
+    /* --- CONTENIDO --- */
+    .group-content { display: none; animation: slideIn 0.8s ease-out; }
+    .group-content.active { display: block; }
+
+    @keyframes slideIn {
+        from { opacity: 0; transform: translateX(50px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* --- CARDS TAMAÑO PROYECCIÓN --- */
+    .prize-card {
+        display: flex;
+        align-items: center;
+        background: #f8fafc;
+        border: 2px solid #f1f5f9;
+        border-radius: 20px;
+        padding: 20px;
+        margin-bottom: 15px;
+    }
+    .winners-badge {
+        background: var(--secondary); color: white;
+        min-width: 60px; height: 60px; border-radius: 15px;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        font-weight: 800; font-size: 24px; margin-right: 25px;
+    }
+    .winners-badge span { font-size: 10px; text-transform: uppercase; }
+    
+    .prize-info { flex-grow: 1; }
+    .prize-name { display: block; font-weight: 800; color: #1e293b; font-size: 26px; }
+    .prize-brand { font-size: 16px; color: #64748b; }
+
+    .qty-target { text-align: center; padding-left: 20px; border-left: 2px dashed #cbd5e1; min-width: 120px; }
+    .qty-value { display: block; font-size: 36px; font-weight: 900; color: var(--success); }
+    .qty-label { font-size: 12px; color: #94a3b8; font-weight: bold; text-transform: uppercase; }
+
+    .section-title {
+        background: var(--primary);
+        color: white;
+        padding: 10px 25px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        font-size: 20px;
+        font-weight: 700;
+        text-align: center;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-main">
+        <span class="tag">Competencia Enero 2026</span>
+        <h1 id="main-title">ENTRY HOME</h1>
+    </div>
+
+    <div class="group-nav">
+        <div class="nav-indicator active" id="ind-0"></div>
+        <div class="nav-indicator" id="ind-1"></div>
+        <div class="nav-indicator" id="ind-2"></div>
+        <div class="nav-indicator" id="ind-3"></div>
+        <div class="nav-indicator" id="ind-4"></div>
+    </div>
+
+    <div id="group-0" class="group-content active">
+        <div class="section-title">DIGITAL HOME</div>
+        <div class="prize-card">
+            <div class="winners-badge">2<span>Gan.</span></div>
+            <div class="prize-info"><span class="prize-name">Speaker JBL GO 4</span><span class="prize-brand">Audio High Quality</span></div>
+            <div class="qty-target"><span class="qty-value">50</span><span class="qty-label">INSTALADAS</span></div>
+        </div>
+        <div class="prize-card">
+            <div class="winners-badge">2<span>Gan.</span></div>
+            <div class="prize-info"><span class="prize-name">Vale de Super 200.000</span><span class="prize-brand">Supermercados</span></div>
+            <div class="qty-target"><span class="qty-value">49</span><span class="qty-label">INSTALADAS</span></div>
+        </div>
+    </div>
+
+    <div id="group-1" class="group-content">
+        <div class="section-title">OUT HOME - ASU</div>
+        <div class="prize-card">
+            <div class="winners-badge">4<span>Gan.</span></div>
+            <div class="prize-info"><span class="prize-name">Speaker JBL GO 4</span><span class="prize-brand">JBL Official</span></div>
+            <div class="qty-target"><span class="qty-value">20</span><span class="qty-label">INSTALADAS</span></div>
+        </div>
+        <div class="prize-card">
+            <div class="winners-badge">4<span>Gan.</span></div>
+            <div class="prize-info"><span class="prize-name">Mochila Tigo</span><span class="prize-brand">Colección 2026</span></div>
+            <div class="qty-target"><span class="qty-value">19</span><span class="qty-label">INSTALADAS</span></div>
+        </div>
+    </div>
+
+    <div id="group-2" class="group-content">
+        <div class="section-title">INB HOME</div>
+        <div class="prize-card">
+            <div class="winners-badge">1<span>Gan.</span></div>
+            <div class="prize-info"><span class="prize-name">Speaker JBL GO 4</span><span class="prize-brand">Premium Audio</span></div>
+            <div class="qty-target"><span class="qty-value">48</span><span class="qty-label">INSTALADAS</span></div>
+        </div>
+    </div>
+
+    <div id="group-3" class="group-content">
+        <div class="section-title">OUT CONCEPT POSPAGO</div>
+        <div class="prize-card">
+            <div class="winners-badge">2<span>Gan.</span></div>
+            <div class="prize-info"><span class="prize-name">Vale Super 200.000</span><span class="prize-brand">Voucher</span></div>
+            <div class="qty-target"><span class="qty-value">28</span><span class="qty-label">INSTALADAS</span></div>
+        </div>
+    </div>
+
+    <div id="group-4" class="group-content">
+        <div class="section-title">OUT PORTA ASU</div>
+        <div class="prize-card">
+            <div class="winners-badge">1<span>Gan.</span></div>
+            <div class="prize-info"><span class="prize-name">Speaker JBL GO 4</span><span class="prize-brand">JBL</span></div>
+            <div class="qty-target"><span class="qty-value">24</span><span class="qty-label">INSTALADAS</span></div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    let currentGroup = 0;
+    const totalGroups = 5;
+
+    function autoRotate() {
+        // Ocultar grupo actual e indicador
+        document.getElementById(`group-${currentGroup}`).classList.remove('active');
+        document.getElementById(`ind-${currentGroup}`).classList.remove('active');
+
+        // Calcular siguiente
+        currentGroup = (currentGroup + 1) % totalGroups;
+
+        // Mostrar siguiente grupo e indicador
+        document.getElementById(`group-${currentGroup}`).classList.add('active');
+        document.getElementById(`ind-${currentGroup}`).classList.add('active');
+    }
+
+    // Cambia cada 30 segundos (30000 milisegundos)
+    setInterval(autoRotate, 30000);
+
+    // Bloquear click derecho para mantenerlo limpio
+    document.addEventListener('contextmenu', e => e.preventDefault());
+</script>
+
+</body>
+</html>
