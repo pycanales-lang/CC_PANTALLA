@@ -331,7 +331,7 @@
 
         function drawRanking() {
             const query = new google.visualization.Query(
-                `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${TAB_NAME}&tq=SELECT A, C ORDER BY E DESC LIMIT 15`
+                `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${TAB_NAME}&tq=SELECT A, C ORDER BY E DESC LIMIT 25`
             );
             query.send(handleQueryResponse);
         }
