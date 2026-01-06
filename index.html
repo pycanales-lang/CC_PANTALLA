@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
-<head> 
+<head>
     <meta charset="UTF-8">
     <title>LIVE DASHBOARD | Competencia 2026</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <style>
         :root {
             --primary: #1e40af;
@@ -20,11 +21,18 @@
             color: white;
             margin: 0;
             height: 100vh;
-            display: flex; /* Esto pone el contenido y el sidebar uno al lado del otro */
+            display: flex;
+            flex-direction: column; /* Cambiado a columna para albergar el zócalo abajo */
             overflow: hidden;
         }
 
-        /* --- CONTENIDO PRINCIPAL (IZQUIERDA) --- */
+        /* --- CONTENEDOR SUPERIOR (CONTENIDO + SIDEBAR) --- */
+        .top-section {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
         .main-content {
             flex: 1;
             padding: 40px;
@@ -33,7 +41,6 @@
             overflow-y: hidden;
         }
 
-        /* --- SIDEBAR DE CRITERIOS (DERECHA) --- */
         .sidebar {
             width: 380px;
             background: var(--glass);
@@ -43,7 +50,7 @@
             display: flex;
             flex-direction: column;
             gap: 25px;
-            height: 100vh;
+            height: 100%;
             box-sizing: border-box;
         }
 
@@ -77,7 +84,6 @@
         /* --- GRUPOS --- */
         .group-container { display: none; height: 100%; }
         .group-container.active { display: block; animation: fadeIn 0.5s ease-in-out; }
-
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .section-banner {
@@ -93,7 +99,7 @@
         /* --- GRILLA DE PREMIOS --- */
         .prizes-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Dos columnas para que quepan todos */
+            grid-template-columns: repeat(2, 1fr);
             gap: 15px;
         }
 
@@ -148,104 +154,230 @@
             line-height: 1.4;
         }
         .criteria-list b { color: var(--accent); display: block; margin-bottom: 4px; font-size: 12px; text-transform: uppercase; }
+
+        /* --- ESTILOS DEL ZÓCALO (RANKING) --- */
+        .ranking-footer {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(15px);
+            border-top: 2px solid var(--primary);
+            height: 60px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .ranking-label {
+            background: var(--primary);
+            color: white;
+            padding: 0 30px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            font-weight: 900;
+            font-size: 18px;
+            z-index: 10;
+            box-shadow: 10px 0 20px rgba(0,0,0,0.5);
+        }
+
+        .ranking-track {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            padding-left: 30px;
+            white-space: nowrap;
+            animation: scrollRanking 40s linear infinite;
+        }
+
+        @keyframes scrollRanking {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .rank-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .rank-pos {
+            background: var(--accent);
+            color: #000;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 900;
+        }
+
+        .rank-val {
+            color: var(--success);
+            font-weight: 900;
+        }
     </style>
 </head>
 <body>
 
-    <div class="main-content">
-        <div class="header">
-            <div class="title-area">
-                <span style="color: var(--accent); font-weight: 800; letter-spacing: 2px;">PANEL DE COMPETENCIA</span>
-                <h1>ENTRY HOME 2026</h1>
+    <div class="top-section">
+        <div class="main-content">
+            <div class="header">
+                <div class="title-area">
+                    <span style="color: var(--accent); font-weight: 800; letter-spacing: 2px;">PANEL DE COMPETENCIA</span>
+                    <h1>ENTRY HOME 2026</h1>
+                </div>
+                <div class="timer-ring">
+                    <svg><circle cx="30" cy="30" r="28"></circle><circle class="progress" id="ring" cx="30" cy="30" r="28"></circle></svg>
+                </div>
             </div>
-            <div class="timer-ring">
-                <svg><circle cx="30" cy="30" r="28"></circle><circle class="progress" id="ring" cx="30" cy="30" r="28"></circle></svg>
-            </div>
-        </div>
 
-        <div id="g0" class="group-container active">
+            <div id="g0" class="group-container active">
             <div class="section-banner">DIGITAL HOME</div>
             <div class="prizes-grid">
-                <div class="prize-card"><div class="winners-box">2<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Speaker JBL GO 4</span><span class="prize-brand">Audio High Quality</span></div><div class="qty-box"><span class="qty-num">50</span><div class="qty-text">INSTALADAS</div></div></div>
-                <div class="prize-card"><div class="winners-box">2<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Vale Super 200.000</span><span class="prize-brand">Voucher Super</span></div><div class="qty-box"><span class="qty-num">49</span><div class="qty-text">INSTALADAS</div></div></div>
-                <div class="prize-card"><div class="winners-box">2<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Hoppy BUBBA Azul</span><span class="prize-brand">Original Bubba</span></div><div class="qty-box"><span class="qty-num">48</span><div class="qty-text">INSTALADAS</div></div></div>
-                <div class="prize-card"><div class="winners-box">2<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Mochila Tigo</span><span class="prize-brand">Oficial Tigo</span></div><div class="qty-box"><span class="qty-num">47</span><div class="qty-text">INSTALADAS</div></div></div>
-                <div class="prize-card"><div class="winners-box">2<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Waflera</span><span class="prize-brand">Hogar</span></div><div class="qty-box"><span class="qty-num">46</span><div class="qty-text">INSTALADAS</div></div></div>
-                <div class="prize-card"><div class="winners-box">2<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Vale 100.000</span><span class="prize-brand">Combustible</span></div><div class="qty-box"><span class="qty-num">45</span><div class="qty-text">INSTALADAS</div></div></div>
+                <div class="prize-card"><div class="winners-box">2<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Speaker JBL GO 4</span><span class="prize-brand">Digital</span></div><div class="qty-box"><span class="qty-num">50</span><div class="qty-text">INSTALADAS</div></div></div>
+                <div class="prize-card"><div class="winners-box">2<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Vale Super 200.000</span><span class="prize-brand">Digital</span></div><div class="qty-box"><span class="qty-num">49</span><div class="qty-text">INSTALADAS</div></div></div>
+                <div class="prize-card"><div class="winners-box">2<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Hoppy BUBBA Azul</span><span class="prize-brand">Digital</span></div><div class="qty-box"><span class="qty-num">48</span><div class="qty-text">INSTALADAS</div></div></div>
+                <div class="prize-card"><div class="winners-box">2<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Mochila Tigo</span><span class="prize-brand">Digital</span></div><div class="qty-box"><span class="qty-num">47</span><div class="qty-text">INSTALADAS</div></div></div>
+                <div class="prize-card"><div class="winners-box">2<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Waflera</span><span class="prize-brand">Digital</span></div><div class="qty-box"><span class="qty-num">46</span><div class="qty-text">INSTALADAS</div></div></div>
+                <div class="prize-card"><div class="winners-box">2<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Combustible 100.000</span><span class="prize-brand">Digital</span></div><div class="qty-box"><span class="qty-num">45</span><div class="qty-text">INSTALADAS</div></div></div>
             </div>
         </div>
 
         <div id="g1" class="group-container">
             <div class="section-banner">OUT HOME - ASU</div>
             <div class="prizes-grid">
-                <div class="prize-card"><div class="winners-box">4<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Speaker JBL GO 4</span><span class="prize-brand">JBL</span></div><div class="qty-box"><span class="qty-num">20</span><div class="qty-text">INSTALADAS</div></div></div>
-                <div class="prize-card"><div class="winners-box">4<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Mochila Tigo</span><span class="prize-brand">Tigo</span></div><div class="qty-box"><span class="qty-num">19</span><div class="qty-text">INSTALADAS</div></div></div>
-                <div class="prize-card"><div class="winners-box">3<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Vale Super 200.000</span><span class="prize-brand">Voucher</span></div><div class="qty-box"><span class="qty-num">18</span><div class="qty-text">INSTALADAS</div></div></div>
-                <div class="prize-card"><div class="winners-box">4<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Waflera</span><span class="prize-brand">Hogar</span></div><div class="qty-box"><span class="qty-num">17</span><div class="qty-text">INSTALADAS</div></div></div>
-                <div class="prize-card"><div class="winners-box">3<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Hoppy BUBBA Azul</span><span class="prize-brand">Bubba</span></div><div class="qty-box"><span class="qty-num">16</span><div class="qty-text">INSTALADAS</div></div></div>
-                <div class="prize-card"><div class="winners-box">4<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Vale 100.000</span><span class="prize-brand">Combustible</span></div><div class="qty-box"><span class="qty-num">15</span><div class="qty-text">INSTALADAS</div></div></div>
+                <div class="prize-card"><div class="winners-box">4<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Speaker JBL GO 4</span><span class="prize-brand">Out Home</span></div><div class="qty-box"><span class="qty-num">20</span><div class="qty-text">INSTALADAS</div></div></div>
+                <div class="prize-card"><div class="winners-box">4<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Mochila Tigo</span><span class="prize-brand">Out Home</span></div><div class="qty-box"><span class="qty-num">19</span><div class="qty-text">INSTALADAS</div></div></div>
+                <div class="prize-card"><div class="winners-box">3<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Vale Super 200.000</span><span class="prize-brand">Out Home</span></div><div class="qty-box"><span class="qty-num">18</span><div class="qty-text">INSTALADAS</div></div></div>
+                <div class="prize-card"><div class="winners-box">4<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Waflera</span><span class="prize-brand">Out Home</span></div><div class="qty-box"><span class="qty-num">17</span><div class="qty-text">INSTALADAS</div></div></div>
+                <div class="prize-card"><div class="winners-box">3<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Hoppy BUBBA Azul</span><span class="prize-brand">Out Home</span></div><div class="qty-box"><span class="qty-num">16</span><div class="qty-text">INSTALADAS</div></div></div>
+                <div class="prize-card"><div class="winners-box">4<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Combustible 100.000</span><span class="prize-brand">Out Home</span></div><div class="qty-box"><span class="qty-num">15</span><div class="qty-text">INSTALADAS</div></div></div>
             </div>
         </div>
 
         <div id="g2" class="group-container">
             <div class="section-banner">INB HOME</div>
             <div class="prizes-grid">
-                <div class="prize-card"><div class="winners-box">1<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Speaker JBL GO 4</span><span class="prize-brand">JBL</span></div><div class="qty-box"><span class="qty-num">48</span><div class="qty-text">INSTALADAS</div></div></div>
-                <div class="prize-card"><div class="winners-box">1<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Mochila Tigo</span><span class="prize-brand">Tigo</span></div><div class="qty-box"><span class="qty-num">47</span><div class="qty-text">INSTALADAS</div></div></div>
-                <div class="prize-card"><div class="winners-box">2<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Vale Super 200.000</span><span class="prize-brand">Voucher</span></div><div class="qty-box"><span class="qty-num">46</span><div class="qty-text">INSTALADAS</div></div></div>
-                <div class="prize-card"><div class="winners-box">2<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Hoppy BUBBA Azul</span><span class="prize-brand">Bubba</span></div><div class="qty-box"><span class="qty-num">45</span><div class="qty-text">INSTALADAS</div></div></div>
+                <div class="prize-card"><div class="winners-box">1<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Speaker JBL GO 4</span><span class="prize-brand">Inb Home</span></div><div class="qty-box"><span class="qty-num">48</span><div class="qty-text">INSTALADAS</div></div></div>
+                <div class="prize-card"><div class="winners-box">1<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Mochila Tigo</span><span class="prize-brand">Inb Home</span></div><div class="qty-box"><span class="qty-num">47</span><div class="qty-text">INSTALADAS</div></div></div>
+                <div class="prize-card"><div class="winners-box">2<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Vale Super 200.000</span><span class="prize-brand">Inb Home</span></div><div class="qty-box"><span class="qty-num">46</span><div class="qty-text">INSTALADAS</div></div></div>
+                <div class="prize-card"><div class="winners-box">2<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Hoppy BUBBA Azul</span><span class="prize-brand">Inb Home</span></div><div class="qty-box"><span class="qty-num">45</span><div class="qty-text">INSTALADAS</div></div></div>
             </div>
         </div>
 
         <div id="g3" class="group-container">
-            <div class="section-banner">CONCEPT & PORTA</div>
+            <div class="section-banner">OUT PORTA - ASU</div>
             <div class="prizes-grid">
-                <div class="prize-card"><div class="winners-box">2<span>Gan.</span></div><div class="prize-info"><span class="prize-name">JBL GO 4 (Concept)</span><span class="prize-brand">JBL</span></div><div class="qty-box"><span class="qty-num">29</span><div class="qty-text">INSTALADAS</div></div></div>
-                <div class="prize-card"><div class="winners-box">2<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Vale Super (Concept)</span><span class="prize-brand">Voucher</span></div><div class="qty-box"><span class="qty-num">28</span><div class="qty-text">INSTALADAS</div></div></div>
-                <div class="prize-card"><div class="winners-box">1<span>Gan.</span></div><div class="prize-info"><span class="prize-name">JBL GO 4 (Porta)</span><span class="prize-brand">JBL</span></div><div class="qty-box"><span class="qty-num">24</span><div class="qty-text">INSTALADAS</div></div></div>
-                <div class="prize-card"><div class="winners-box">1<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Mochila Tigo (Porta)</span><span class="prize-brand">Oficial</span></div><div class="qty-box"><span class="qty-num">23</span><div class="qty-text">INSTALADAS</div></div></div>
+                <div class="prize-card"><div class="winners-box">1<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Speaker JBL GO 4</span><span class="prize-brand">Porta</span></div><div class="qty-box"><span class="qty-num">24</span><div class="qty-text">INSTALADAS</div></div></div>
+                <div class="prize-card"><div class="winners-box">1<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Mochila Tigo</span><span class="prize-brand">Porta</span></div><div class="qty-box"><span class="qty-num">23</span><div class="qty-text">INSTALADAS</div></div></div>
+                <div class="prize-card"><div class="winners-box">1<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Vale Super 200.000</span><span class="prize-brand">Porta</span></div><div class="qty-box"><span class="qty-num">22</span><div class="qty-text">INSTALADAS</div></div></div>
+                <div class="prize-card"><div class="winners-box">1<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Waflera</span><span class="prize-brand">Porta</span></div><div class="qty-box"><span class="qty-num">21</span><div class="qty-text">INSTALADAS</div></div></div>
+                <div class="prize-card"><div class="winners-box">1<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Hoppy BUBBA Azul</span><span class="prize-brand">Porta</span></div><div class="qty-box"><span class="qty-num">20</span><div class="qty-text">INSTALADAS</div></div></div>
+            </div>
+        </div>
+
+        <div id="g4" class="group-container">
+            <div class="section-banner">OUT CONCEP. POSPAGO</div>
+            <div class="prizes-grid">
+                <div class="prize-card"><div class="winners-box">2<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Speaker JBL GO 4</span><span class="prize-brand">Pospago</span></div><div class="qty-box"><span class="qty-num">29</span><div class="qty-text">INSTALADAS</div></div></div>
+                <div class="prize-card"><div class="winners-box">2<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Vale Super 200.000</span><span class="prize-brand">Pospago</span></div><div class="qty-box"><span class="qty-num">28</span><div class="qty-text">INSTALADAS</div></div></div>
+                <div class="prize-card"><div class="winners-box">2<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Hoppy BUBBA Azul</span><span class="prize-brand">Pospago</span></div><div class="qty-box"><span class="qty-num">27</span><div class="qty-text">INSTALADAS</div></div></div>
+                <div class="prize-card"><div class="winners-box">2<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Mochila Tigo</span><span class="prize-brand">Pospago</span></div><div class="qty-box"><span class="qty-num">26</span><div class="qty-text">INSTALADAS</div></div></div>
+                <div class="prize-card"><div class="winners-box">4<span>Gan.</span></div><div class="prize-info"><span class="prize-name">Combustible 100.000</span><span class="prize-brand">Pospago</span></div><div class="qty-box"><span class="qty-num">25</span><div class="qty-text">INSTALADAS</div></div></div>
+            </div>
+         </div>
+        </div>
+
+        <div class="sidebar">
+            <h2>📌 CRITERIOS</h2>
+            <ul class="criteria-list">
+                <li><b>Vigencia</b> Generadas del 01 al 14 de Enero 2026.</li>
+                <li><b>Cierre Instalación</b> Hasta el 18 de Enero 2026.</li>
+                <li><b>Pospago</b> Activadas del 01 al 14 de Enero.</li>
+            </ul>
+
+            <h2 style="margin-top: 15px;">⚖️ DESEMPATE</h2>
+            <ul class="criteria-list">
+                <li><b>1. Generadas</b> Mayor cantidad de generadas totales.</li>
+                <li><b>2. Revenue</b> Mayor Revenue acumulado.</li>
+                <li><b>3. Pospago</b> Mayor cantidad de Pospago.</li>
+            </ul>
+
+            <div style="margin-top: auto; font-size: 11px; color: #64748b; text-align: center;">
+                <div id="sync-label">Sincronizando...</div>
+                © 2026 CANALES COMERCIALES
             </div>
         </div>
     </div>
 
-    <div class="sidebar">
-        <h2>📌 CRITERIOS</h2>
-        <ul class="criteria-list">
-            <li><b>Vigencia</b> Generadas del 01 al 14 de Enero 2026.</li>
-            <li><b>Cierre Instalación</b> Hasta el 18 de Enero 2026.</li>
-            <li><b>Pospago</b> Activadas del 01 al 14 de Enero.</li>
-        </ul>
-
-        <h2 style="margin-top: 15px;">⚖️ DESEMPATE</h2>
-        <ul class="criteria-list">
-            <li><b>1. Generadas</b> Mayor cantidad de generadas totales.</li>
-            <li><b>2. Revenue</b> Mayor Revenue acumulado.</li>
-            <li><b>3. Pospago</b> Mayor cantidad de Pospago.</li>
-        </ul>
-
-        <div style="margin-top: auto; font-size: 11px; color: #64748b; text-align: center;">
-            © 2026 CANALES COMERCIALES<br>Uso Interno Confidencial
+    <div class="ranking-footer">
+        <div class="ranking-label">🏆 TOP VENDEDORES</div>
+        <div class="ranking-track" id="ranking-data">
+            <span style="opacity: 0.5;">Cargando Ranking en vivo...</span>
         </div>
     </div>
 
     <script>
+        // CONFIGURACIÓN DE TU EXCEL
+        const SHEET_ID = '1t2xdwDpdxjDcZdb03nShROC-dI0ug2Ypw_zDmZKFq90'; 
+        const TAB_NAME = 'Hoja1'; 
+        
+        google.charts.load('current', {packages:['corechart']});
+        google.charts.setOnLoadCallback(drawRanking);
+
+        function drawRanking() {
+            const query = new google.visualization.Query(
+                `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${TAB_NAME}&tq=SELECT A, C ORDER BY E DESC LIMIT 15`
+            );
+            query.send(handleQueryResponse);
+        }
+
+        function handleQueryResponse(response) {
+            if (response.isError()) return;
+            const data = response.getDataTable();
+            let html = '';
+            
+            // Generamos el contenido del ranking (lo repetimos 2 veces para el efecto de scroll infinito)
+            const rowCount = data.getNumberOfRows();
+            for(let loop = 0; loop < 2; loop++) {
+                for (let i = 0; i < rowCount; i++) {
+                    html += `
+                        <div class="rank-item">
+                            <span class="rank-pos">${i+1}</span>
+                            <span class="rank-name">${data.getValue(i, 0)}</span>
+                            <span class="rank-val">${data.getValue(i, 1)} INST.</span>
+                        </div>`;
+                }
+            }
+            document.getElementById('ranking-data').innerHTML = html;
+            document.getElementById('sync-label').innerText = 'Sync: ' + new Date().toLocaleTimeString();
+        }
+
+        // Lógica de rotación de grupos y timer
         let currentGroup = 0;
         const totalGroups = 4;
-        const switchTime = 30; // Segundos
+        const switchTime = 30; 
         let timeLeft = switchTime;
         const ring = document.getElementById('ring');
 
         function update() {
             const offset = 175 - (175 * timeLeft / switchTime);
             ring.style.strokeDashoffset = offset;
+            
             if (timeLeft <= 0) {
                 document.getElementById(`g${currentGroup}`).classList.remove('active');
                 currentGroup = (currentGroup + 1) % totalGroups;
                 document.getElementById(`g${currentGroup}`).classList.add('active');
                 timeLeft = switchTime;
+                drawRanking(); // Actualiza el ranking cada vez que cambia el grupo
             }
             timeLeft -= 0.1;
         }
+        
         setInterval(update, 100);
     </script>
 </body>
